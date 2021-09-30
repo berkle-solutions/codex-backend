@@ -5,5 +5,5 @@ from codex.models.pessoa import Pessoa
 __all__ = [
     'Encomenda',
     'Perfil',
-    'Pessoa'
+    'Pessoa',
 ]
