@@ -5,4 +5,3 @@ class PerfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = Perfil
         fields = ['id', 'descricao']
-        validators = ['descricao']

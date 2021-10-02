@@ -1,18 +1,41 @@
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view
+# from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from codex.serializers.perfil_serializer import PerfilSerializer
 from codex.models.perfil import Perfil
-from django.db import connection
+# from django.db import connection
 
 class PerfilView(APIView):
     
     @api_view(['POST'])
     def salvar_perfil(request):
         try:
-            with connection.cursor() as cursor:
-                cursor.execute('INSERT INTO codex_perfil(descricao) VALUES(%s)', [request.data["descricao"]])
-                return Response(status=200)
+            serializer = PerfilSerializer(data=request.data)
+            # inner_join = "SELECT * FROM Perfil INNER JOIN Historico ON Perfil.id = Historico.perfil_id WHERE Perfil.id = %s", [request.data["id"]]
+            # inner_join = Perfil.objects.select_related('Historico').get(id=pk)
+            if serializer.is_valid():
+                serializer.save()
+            return Response(serializer.data)
+        except Exception as e:
+            raise e
+    
+    @api_view(['GET'])
+    def retorna_perfis(request):
+        try:
+            query = Perfil.objects.all()
+            # query = Perfil.objects.all()
+            # query = Perfil.objects.raw('SELECT * FROM codex_perfil')
+            serializers = PerfilSerializer(query, many=True)
+            return Response(serializers.data)
+        except Exception as e:
+            raise e
+    
+    @api_view(['GET'])
+    def detalhe_perfil(request, pk):
+        try:
+            query = Perfil.objects.get(id=pk)
+            serializer = PerfilSerializer(query, many=False)
+            return Response(serializer.data)
         except Exception as e:
             raise e
