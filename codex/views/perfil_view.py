@@ -39,3 +39,17 @@ class PerfilView(APIView):
             return Response(serializer.data)
         except Exception as e:
             raise e
+        
+    @api_view(['PUT'])
+    def atualizar_perfil(request):
+        try:
+            serializer = PerfilSerializer(data=request.data)
+            if serializer.is_valid():
+                perfil = Perfil.objects.get(id=request.data["id"])
+                perfil.descricao = request.data["descricao"]
+                perfil.save()
+                return Response(serializer.data)
+            else:
+                raise "Dados invalidos"
+        except Exception as e:
+            raise e
