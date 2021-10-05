@@ -53,3 +53,16 @@ class PerfilView(APIView):
                 raise "Dados invalidos"
         except Exception as e:
             raise e
+    
+    @api_view(['DELETE'])
+    def deletar_perfil(request, pk):
+        try:
+            if pk:
+                perfil = Perfil.objects.get(id=pk)
+                perfil.delete()
+                serializers = PerfilSerializer(perfil, many=False)
+                return Response(serializers.data)
+            else:
+               raise "Por favor, informe o ID do perfil" 
+        except Exception as e:
+            raise e
