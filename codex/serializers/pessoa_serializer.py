@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from codex.models.pessoa import Pessoa
 
-class PerfilSerializer(serializers.ModelSerializer):
+class PessoaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pessoa
         fields = [
