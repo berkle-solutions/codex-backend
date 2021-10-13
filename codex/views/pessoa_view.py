@@ -10,11 +10,11 @@ class PessoaView(APIView):
     def salvar_pessoa(request):
         try:
             serializer = PessoaSerializer(data=request.data)
-            print(serializer.is_valid())
-            # if serializer.is_valid():
-            serializer.create(request.data)
-            return Response(serializer.data)
-            return Response(status=200)
+            if serializer.is_valid():
+                serializer.create(request.data)
+                return Response(serializer.data)
+            else:
+                raise "Dados invalidos"
         except Exception as e:
             raise e
     
