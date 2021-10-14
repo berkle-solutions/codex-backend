@@ -25,8 +25,7 @@ class PessoaView(APIView):
             if serializer.is_valid():
                 serializer.update(request.data)
                 return Response(status=200)
-            else:
-                raise "Dados invalidos"
+            raise "Dados invalidos"
         except Exception as e:
             raise e
     

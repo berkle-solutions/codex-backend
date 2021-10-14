@@ -4,16 +4,16 @@ from codex.models.perfil import Perfil
 from django.contrib.auth.hashers import make_password
 
 class PessoaSerializer(serializers.ModelSerializer):
-    # id= serializers.IntegerField(read_only=True)
-    # nome= serializers.CharField(required=True)
-    # email= serializers.CharField(required=True)
-    # senha= serializers.CharField(required=True)
-    # cpf= serializers.CharField(required=True)
-    # data_nascimento= serializers.DateTimeField(required=True)
-    # telefone= serializers.CharField(required=False, allow_blank=True)
-    # celular= serializers.CharField(required=True)
-    # ativo= serializers.BooleanField(default='1')
-    # perfil= serializers.IntegerField(required=True)
+    id= serializers.IntegerField(read_only=False)
+    nome= serializers.CharField(required=False)
+    email= serializers.CharField(required=False)
+    senha= serializers.CharField(required=False)
+    cpf= serializers.CharField(required=False)
+    data_nascimento= serializers.DateTimeField(required=False)
+    telefone= serializers.CharField(required=False, allow_blank=True)
+    celular= serializers.CharField(required=False)
+    ativo= serializers.BooleanField(default='1')
+    perfil= serializers.IntegerField(required=False)
     class Meta:
         model = Pessoa
         fields = '__all__'
@@ -35,7 +35,7 @@ class PessoaSerializer(serializers.ModelSerializer):
                 
             if validated_data.get("senha"):
                 validated_data["senha"] = make_password(validated_data["senha"])
-                
+                                
             return Pessoa.objects.filter(id=validated_data["id"]).update(**validated_data)
         except Exception as e:
             raise e
