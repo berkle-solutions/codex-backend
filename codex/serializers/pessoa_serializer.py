@@ -9,8 +9,8 @@ from django.contrib.auth.hashers import make_password
 class PessoaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pessoa
-        # fields = "__all__"
-        fields = []
+        fields = "__all__"
+        # fields = []
     
     def create(self, validated_data):
         perfil_instance = Perfil.objects.get(id=validated_data["perfil"])
