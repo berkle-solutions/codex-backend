@@ -14,5 +14,8 @@ urlpatterns = [
     path('perfil/deletar/<str:pk>', PerfilView.deletar_perfil, name="deletar-perfil"),
     path('perfil/lista', PerfilView.retorna_perfis, name="retorna-perfis"),
     #pessoa
-    path('pessoa/salvar', PessoaView.salvar_pessoa, name="salvar-pessoa")
+    path('pessoa/salvar', PessoaView.salvar_pessoa, name="salvar-pessoa"),
+    path('pessoa/detalhe/<str:pk>', PerfilView.detalhe_pessoa, name="detalhe-perfil"),
+    path('pessoa/deletar/<str:pk>', PessoaView.deletar_pessoa, name="deletar-pessoa"),
+    path('pessoa/atualizar', PessoaView.atualizar_pessoa, name="atualizar-pessoa"),
 ]
