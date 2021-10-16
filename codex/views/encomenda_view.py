@@ -1,4 +1,3 @@
-from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,11 +7,11 @@ from codex.serializers.encomenda_serializer import EncomendaSerializer
 
 
 class EncomendaView(APIView):
-    '''instanciamento de classe'''
+    """instanciamento de classe"""
 
     @api_view(['POST'])
     def salvar_encomenda(self, request):
-        '''guarda encomenda'''
+        """guarda encomenda"""
         try:
             serializer = EncomendaSerializer(data=request.data)
             if serializer.is_valid():
@@ -23,7 +22,7 @@ class EncomendaView(APIView):
 
     @api_view(['GET'])
     def retorna_encomenda(self, request):
-        '''mostra todas as encomenda'''
+        """mostra todas as encomenda"""
         try:
             query = Encomenda.objects.all()
             serializer = EncomendaSerializer(query, many=True)
@@ -33,7 +32,7 @@ class EncomendaView(APIView):
 
     @api_view(['GET'])
     def detalhe_encomenda(self, request, pk):
-        '''mostra detalhes de uma unica encomenda'''
+        """mostra detalhes de uma unica encomenda"""
         try:
             query = Encomenda.objects.get(id=pk)
             serializer = EncomendaSerializer(query, many=False)
@@ -43,7 +42,7 @@ class EncomendaView(APIView):
 
     @api_view(['PUT'])
     def atualizar_encomenda(self, request):
-        '''atualiza status da encomenda'''
+        """atualiza status da encomenda"""
         try:
             serializer = EncomendaSerializer(data=request.data)
             if serializer.is_valid():
@@ -56,9 +55,8 @@ class EncomendaView(APIView):
         except Exception as e:
             raise e
 
-    
-     @api_view(['DELETE'])
-    def deletar_encomenda(request, pk):
+    @api_view(['DELETE'])
+    def deletar_encomenda(self, request, pk):
         try:
             if pk:
                 encomenda = Encomenda.objects.get(id=pk)
@@ -69,4 +67,3 @@ class EncomendaView(APIView):
                 raise "Por favor, informe o ID da encomenda"
         except Exception as e:
             raise e
-        
