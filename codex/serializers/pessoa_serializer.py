@@ -29,4 +29,3 @@ class PessoaSerializer(serializers.ModelSerializer):
             return Pessoa.objects.filter(id=validated_data["id"]).update(**validated_data)
         except Exception as e:
             raise e
-       
