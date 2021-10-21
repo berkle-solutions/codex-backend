@@ -36,15 +36,14 @@ class PessoaView(APIView):
         except Exception as e:
             raise e
     
-    # for (admin, sindico, porteiro)
-    # body {
-    #    tenandId, userRole(perfil),    
-    # }
-    # RN -> checar se o userId é correspondente ao tenantId e checar se a role é valida
-    
-    @api_view(['POST'])
+    @api_view(['GET'])
     def retorna_pessoas(request):
-        return Response(status=200)
+        try:
+            pessoas = Pessoa.objects.all()
+            serializer = PessoaSerializer(pessoas, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            raise e
     
     @api_view(['DELETE'])
     def deletar_pessoa(request, pk):

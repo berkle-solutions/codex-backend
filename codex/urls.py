@@ -18,4 +18,5 @@ urlpatterns = [
     path('pessoa/detalhe/<str:pk>', PessoaView.detalhe_pessoa, name="detalhe-perfil"),
     path('pessoa/deletar/<str:pk>', PessoaView.deletar_pessoa, name="deletar-pessoa"),
     path('pessoa/atualizar', PessoaView.atualizar_pessoa, name="atualizar-pessoa"),
+    path('pessoa/lista', PessoaView.retorna_pessoas, name="retorna-pessoas")
 ]
