@@ -22,10 +22,8 @@ class PessoaView(APIView):
     def atualizar_pessoa(request):
         try:
             serializer = PessoaSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.update(request.data)
-                return Response(status=200)
-            raise "Dados invalidos"
+            serializer.update(request.data)
+            return Response(status=200)
         except Exception as e:
             raise e
     
