@@ -1,6 +1,5 @@
 from django.db import models
 from codex.models.perfil import Perfil
-
 class Pessoa(models.Model):
     nome= models.CharField(max_length=100)
     email= models.CharField(max_length=256)
