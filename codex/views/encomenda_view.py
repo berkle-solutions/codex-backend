@@ -10,7 +10,7 @@ class EncomendaView(APIView):
     """instanciamento de classe"""
 
     @api_view(['POST'])
-    def salvar_encomenda(self, request):
+    def salvar_encomenda(request):
         """guarda encomenda"""
         try:
             serializer = EncomendaSerializer(data=request.data)
@@ -21,7 +21,7 @@ class EncomendaView(APIView):
             raise e
 
     @api_view(['GET'])
-    def retorna_encomenda(self, request):
+    def retorna_encomenda(request):
         """mostra todas as encomenda"""
         try:
             query = Encomenda.objects.all()
@@ -31,7 +31,7 @@ class EncomendaView(APIView):
             raise e
 
     @api_view(['GET'])
-    def detalhe_encomenda(self, request, pk):
+    def detalhe_encomenda(request, pk):
         """mostra detalhes de uma unica encomenda"""
         try:
             query = Encomenda.objects.get(id=pk)
@@ -41,22 +41,21 @@ class EncomendaView(APIView):
             raise e
 
     @api_view(['PUT'])
-    def atualizar_encomenda(self, request):
+    def atualizar_encomenda(request):
         """atualiza status da encomenda"""
         try:
-            serializer = EncomendaSerializer(data=request.data)
-            if serializer.is_valid():
-                encomenda = Encomenda.objects.get(id=request.data["id"])
-                encomenda.descricao = request.data["descricao"]
-                encomenda.save()
-                return Response(serializer.data)
-            else:
-                raise "Dados invalidos"
+            # serializer = EncomendaSerializer(data=request.data)
+            encomenda = Encomenda.objects.get(id=request.data["id"])
+            encomenda.descricao = request.data["descricao"]
+            encomenda.save()
+            
+            serializer = EncomendaSerializer(encomenda, many=False)
+            return Response(serializer.data)
         except Exception as e:
             raise e
 
     @api_view(['DELETE'])
-    def deletar_encomenda(self, request, pk):
+    def deletar_encomenda(request, pk):
         try:
             if pk:
                 encomenda = Encomenda.objects.get(id=pk)

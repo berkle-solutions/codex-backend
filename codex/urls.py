@@ -1,17 +1,11 @@
 from django.urls import path
 from codex.views.autenticacao_view import AutenticacaoView
-
+from codex.views.encomenda_view import EncomendaView
 from codex.views.pessoa_view import PessoaView
 from codex.views.perfil_view import PerfilView
 
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
-
 
 urlpatterns = [
-    # TODO: to create api overview, sounds like a swagger
 	# path('', views.apiOverview, name="api-overview"),
     #perfil
 	path('perfil/salvar', PerfilView.salvar_perfil, name="salvar-perfil"),
@@ -25,6 +19,12 @@ urlpatterns = [
     path('pessoa/deletar/<str:pk>', PessoaView.deletar_pessoa, name="deletar-pessoa"),
     path('pessoa/atualizar', PessoaView.atualizar_pessoa, name="atualizar-pessoa"),
     path('pessoa/lista', PessoaView.retorna_pessoas, name="retorna-pessoas"),
+    #encomenda
+    path('encomenda/salvar', EncomendaView.salvar_encomenda, name="salvar-encomenda"),
+    path('encomenda/lista', EncomendaView.retorna_encomenda, name="retorna-encomendas"),
+    path('encomenda/detalhe/<str:pk>', EncomendaView.detalhe_encomenda, name="detalhe-encomenda"),
+    path('encomenda/atualizar', EncomendaView.atualizar_encomenda, name="atualizar-encomenda"),
+    # TODO: fix path('encomenda/deletar/<str:pk>', EncomendaView.deletar_encomenda, name="deletar-encomenda"),
     #autenticacao
     path('autenticacao/token', AutenticacaoView.autenticar_usuario, name="autenticacao")
     # path('autenticacao/token', TokenObtainPairView.as_view(), name="autenticacao-token"),
