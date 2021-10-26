@@ -56,6 +56,7 @@ class EncomendaView(APIView):
 
     @api_view(['DELETE'])
     def deletar_encomenda(request, pk):
+        """Deleta encomenda"""
         try:
             if pk:
                 encomenda = Encomenda.objects.get(id=pk)

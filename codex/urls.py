@@ -1,8 +1,10 @@
 from django.urls import path
 from codex.views.autenticacao_view import AutenticacaoView
 from codex.views.encomenda_view import EncomendaView
+from codex.views.armario_view import ArmarioView
 from codex.views.pessoa_view import PessoaView
 from codex.views.perfil_view import PerfilView
+from codex.views.compartimento_view import CompartimentoView
 
 
 urlpatterns = [
@@ -29,4 +31,16 @@ urlpatterns = [
     path('autenticacao/token', AutenticacaoView.autenticar_usuario, name="autenticacao")
     # path('autenticacao/token', TokenObtainPairView.as_view(), name="autenticacao-token"),
     # path('autenticacao/token/refresh/', TokenRefreshView.as_view(), name='autenticacao-token-refresh'),
-]
+    # armario
+    path('armario/lista', ArmarioView.retorna_armarios, name="retorna-armarios"),
+    path('armario/detalhe/<str:pk>', ArmarioView.detalhe_armario, name='detalhe-armario'),
+    path('armario/salvar', ArmarioView.salvar_armario, name='salvar-armario'),
+    path('armario/atualizar/<str:pk>', ArmarioView.atualizar_armario, name='atualizar-armario'),
+    path('armario/deletar/<str:pk>', ArmarioView.deletar_armario, name='deletar-armario'),    
+    # compartimento
+    path('compartimento/lista-por-armario/<str:armario_id>', CompartimentoView.retorna_compartimentos_por_armario, name="retorna-compartimentos-por-armario"),
+    path('compartimento/detalhe/<str:pk>', CompartimentoView.detalhe_compartimento, name='detalhe-compartimento'),
+    path('compartimento/salvar', CompartimentoView.salvar_compartimento, name='salvar-compartimento'),
+    path('compartimento/atualizar/<str:pk>', CompartimentoView.atualizar_compartimento, name='atualizar-compartimento'),
+    path('compartimento/deletar/<str:pk>', CompartimentoView.deletar_compartimento, name='deletar-compartimento'),    
+
