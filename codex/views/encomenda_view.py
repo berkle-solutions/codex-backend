@@ -22,7 +22,7 @@ class EncomendaView(APIView):
 
     @api_view(['GET'])
     def retorna_encomenda(self, request):
-        """mostra todas as encomenda"""
+        """mostra todas as encomendas"""
         try:
             query = Encomenda.objects.all()
             serializer = EncomendaSerializer(query, many=True)
