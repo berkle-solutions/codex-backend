@@ -28,7 +28,7 @@ urlpatterns = [
     path('encomenda/atualizar', EncomendaView.atualizar_encomenda, name="atualizar-encomenda"),
     # TODO: fix path('encomenda/deletar/<str:pk>', EncomendaView.deletar_encomenda, name="deletar-encomenda"),
     #autenticacao
-    path('autenticacao/token', AutenticacaoView.autenticar_usuario, name="autenticacao")
+    path('autenticacao/token', AutenticacaoView.autenticar_usuario, name="autenticacao"),
     # path('autenticacao/token', TokenObtainPairView.as_view(), name="autenticacao-token"),
     # path('autenticacao/token/refresh/', TokenRefreshView.as_view(), name='autenticacao-token-refresh'),
     # armario
@@ -43,4 +43,4 @@ urlpatterns = [
     path('compartimento/salvar', CompartimentoView.salvar_compartimento, name='salvar-compartimento'),
     path('compartimento/atualizar/<str:pk>', CompartimentoView.atualizar_compartimento, name='atualizar-compartimento'),
     path('compartimento/deletar/<str:pk>', CompartimentoView.deletar_compartimento, name='deletar-compartimento'),    
-
+]
