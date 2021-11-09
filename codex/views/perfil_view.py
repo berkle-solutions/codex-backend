@@ -12,6 +12,7 @@ class PerfilView(APIView):
     @api_view(['POST'])
     def salvar_perfil(request):
         try:
+            print(request.data)
             serializer = PerfilSerializer(data=request.data)
             # inner_join = "SELECT * FROM Perfil INNER JOIN Historico ON Perfil.id = Historico.perfil_id WHERE Perfil.id = %s", [request.data["id"]]
             # inner_join = Perfil.objects.select_related('Historico').get(id=pk)
