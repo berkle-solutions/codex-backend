@@ -1,1 +1,1 @@
-web: gunicorn codex-backend-tcc.wsgi --log-file -
+web: gunicorn codex.wsgi --log-file -
