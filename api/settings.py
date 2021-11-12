@@ -103,11 +103,11 @@ DATABASES = {
         'OPTIONS': {
             'sql_mode': 'traditional',
         },
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASSWORD'),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': env('DATABASE_PORT'),        
+        'NAME': env('DATABASE_NAME') or 'cpojtnt9o23yzo3i',
+        'USER': env('DATABASE_USER') or 'y1p84p7zexbbb2ec',
+        'PASSWORD': env('DATABASE_PASSWORD') or 'w6m85uqoubk87km8',
+        'HOST': env('DATABASE_HOST') or 'lyn7gfxo996yjjco.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+        'PORT': env('DATABASE_PORT') or '3306',        
     }
 }
 
