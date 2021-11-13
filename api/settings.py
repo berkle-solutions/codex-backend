@@ -25,6 +25,7 @@ prod_db = dj_database_url.config(conn_max_age=500)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -34,6 +35,7 @@ SECRET_KEY = 'django-insecure-vf(4-hp$s0q*=5_@h-o12*sct=8i38*1eljs6b$%%a)0h)ale7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# TODO: add env to allowed hosts
 ALLOWED_HOSTS = ['*']
 
 
@@ -74,7 +76,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ['https://codex-backend-tcc.herokuapp.com/']
+# TODO: add env to allowed origins
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'https://codex-backend-tcc.herokuapp.com']
 
 ROOT_URLCONF = 'api.urls'
 
@@ -106,11 +109,11 @@ DATABASES = {
         'OPTIONS': {
             'sql_mode': 'traditional',
         },
-        'NAME': 'cpojtnt9o23yzo3i',
-        'USER': 'y1p84p7zexbbb2ec',
-        'PASSWORD': 'w6m85uqoubk87km8',
-        'HOST': 'lyn7gfxo996yjjco.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',        
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
     }
 }
 
