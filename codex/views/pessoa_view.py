@@ -1,8 +1,11 @@
 from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.exceptions import APIException
 from codex.serializers.pessoa_serializer import PessoaSerializer
 from codex.models.pessoa import Pessoa
+from codex.exceptions.pessoa import pessoaExceptions
 
 class PessoaView(APIView):
     
@@ -12,11 +15,11 @@ class PessoaView(APIView):
             serializer = PessoaSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.create(request.data)
-                return Response(serializer.data)
-            else:
-                raise "Dados invalidos"
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            exceptions = pessoaExceptions()
+            raise Exception(exceptions.INVALID_FIELDS)
         except Exception as e:
-            raise e
+            raise APIException(e)
     
     @api_view(['PUT'])
     def atualizar_pessoa(request):
