@@ -2,6 +2,9 @@ from rest_framework import serializers
 from codex.models.pessoa import Pessoa
 from codex.models.perfil import Perfil
 from django.contrib.auth.hashers import make_password
+# helper
+from codex.helpers.makers import criarRandomPassword
+from codex.helpers.email import enviarEmailDeCadastro
 
 class PessoaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,13 +12,20 @@ class PessoaSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def create(self, validated_data):
-        perfil_instance = Perfil.objects.get(id=validated_data["perfil"])
-        validated_data["perfil"] = perfil_instance
-        validated_data["senha"] = make_password(validated_data["senha"])
-        pessoa = Pessoa.objects.create(**validated_data)
-        pessoa.save()
-                
-        return pessoa
+        try:
+            random_password = criarRandomPassword()
+            
+            perfil_instance = Perfil.objects.get(id=validated_data["perfil"])
+            validated_data["perfil"] = perfil_instance
+            validated_data["senha"] = make_password(random_password)
+            pessoa = Pessoa.objects.create(**validated_data)
+            pessoa.save()
+                    
+            enviarEmailDeCadastro(pessoa.email, random_password)
+                    
+            return pessoa
+        except Exception as e:
+            raise e
     
     def update(self, validated_data):
         try:

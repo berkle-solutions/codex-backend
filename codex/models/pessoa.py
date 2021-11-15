@@ -3,7 +3,7 @@ from codex.models.perfil import Perfil
 class Pessoa(models.Model):
     nome= models.CharField(max_length=100)
     email= models.CharField(max_length=256)
-    senha= models.CharField(max_length=256)
+    senha= models.CharField(max_length=256, blank=True)
     cpf= models.CharField(max_length=11)
     data_nascimento= models.DateTimeField()
     telefone= models.CharField(max_length=12)
