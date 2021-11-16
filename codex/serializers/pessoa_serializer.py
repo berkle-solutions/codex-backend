@@ -3,11 +3,13 @@ from django.contrib.auth.hashers import make_password
 
 from codex.models.pessoa import Pessoa
 from codex.models.perfil import Perfil
+from codex.serializers.perfil_serializer import PerfilSerializer
 from codex.helpers.makers import criarRandomPassword
 from codex.helpers.email import enviarEmailDeCadastro
 from codex.exceptions.pessoa import pessoaExceptions
 
 class PessoaSerializer(serializers.ModelSerializer):
+    perfil = PerfilSerializer(many=False, read_only=True)
     class Meta:
         model = Pessoa
         fields = '__all__'
@@ -33,7 +35,6 @@ class PessoaSerializer(serializers.ModelSerializer):
         except Exception as e:
             raise e
             
-    
     def update(self, validated_data):
         try:
             if validated_data.get("perfil"):
