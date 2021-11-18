@@ -3,8 +3,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from codex.models.encomenda import Encomenda
 from codex.serializers.encomenda_serializer import EncomendaSerializer
-# from rest_framework.renderers import JSONRenderer
-
 
 class EncomendaView(APIView):
     """instanciamento de classe"""
@@ -13,10 +11,10 @@ class EncomendaView(APIView):
     def salvar_encomenda(request):
         """guarda encomenda"""
         try:
-            serializer = EncomendaSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-            return Response(serializer.data)
+            serializer_encomenda = EncomendaSerializer(data=request.data)
+            if serializer_encomenda.is_valid():
+                serializer_encomenda.create(request.data)
+                return Response(serializer_encomenda.data)
         except Exception as e:
             raise e
 
@@ -61,8 +59,7 @@ class EncomendaView(APIView):
             if pk:
                 encomenda = Encomenda.objects.get(id=pk)
                 encomenda.delete()
-                serializers = EncomendaSerializer(encomenda, many=False)
-                return Response(serializers.data)
+                return Response(status=204)
             else:
                 raise "Por favor, informe o ID da encomenda"
         except Exception as e:

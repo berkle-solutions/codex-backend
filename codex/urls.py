@@ -26,7 +26,7 @@ urlpatterns = [
     path('encomenda/lista', EncomendaView.retorna_encomenda, name="retorna-encomendas"),
     path('encomenda/detalhe/<str:pk>', EncomendaView.detalhe_encomenda, name="detalhe-encomenda"),
     path('encomenda/atualizar', EncomendaView.atualizar_encomenda, name="atualizar-encomenda"),
-    # TODO: fix path('encomenda/deletar/<str:pk>', EncomendaView.deletar_encomenda, name="deletar-encomenda"),
+    path('encomenda/deletar/<str:pk>', EncomendaView.deletar_encomenda, name="deletar-encomenda"),
     #autenticacao
     path('autenticacao/token', AutenticacaoView.autenticar_usuario, name="autenticacao"),
     # path('autenticacao/token', TokenObtainPairView.as_view(), name="autenticacao-token"),
