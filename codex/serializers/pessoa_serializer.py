@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password
 from codex.models.pessoa import Pessoa
 from codex.models.perfil import Perfil
 from codex.serializers.perfil_serializer import PerfilSerializer
+from codex.serializers.localizacao_serializer import LocalizacaoSerializer
 from codex.helpers.makers import criarRandomPassword
 from codex.helpers.email import enviarEmailDeCadastro
 from codex.exceptions.pessoa import pessoaExceptions
@@ -29,7 +30,16 @@ class PessoaSerializer(serializers.ModelSerializer):
             pessoa = Pessoa.objects.create(**validated_data)
             pessoa.save()
             
-            enviarEmailDeCadastro(pessoa.email, random_password) 
+            if validated_data.get("localizacao"):
+                localizacao_serializar = LocalizacaoSerializer()
+                localizacao_usuario = {}
+                localizacao_usuario['bloco'] = validated_data["localizacao"]["bloco"]
+                localizacao_usuario['andar'] = validated_data["localizacao"]["andar"]
+                localizacao_usuario['unidade'] = validated_data["localizacao"]["unidade"]
+                localizacao_usuario['pessoa'] = pessoa.id
+                localizacao_serializar.create(localizacao_usuario)
+            
+            enviarEmailDeCadastro(pessoa.email, random_password)
              
             return pessoa
         except Exception as e:

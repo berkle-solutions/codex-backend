@@ -8,7 +8,7 @@ class Pessoa(models.Model):
     data_nascimento= models.DateTimeField()
     telefone= models.CharField(max_length=12)
     celular= models.CharField(max_length=13)
-    ativo= models.BooleanField(default='1', blank=False)
+    ativo= models.BooleanField(default='1', blank=True)
     perfil= models.ForeignKey(Perfil, related_name='pessoa', on_delete=models.CASCADE)
     
     def __str__(self):
