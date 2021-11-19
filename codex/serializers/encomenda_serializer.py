@@ -4,8 +4,11 @@ from codex.models.pessoa import Pessoa
 from codex.helpers.makers import criarCodigoResgate
 # serializer
 from codex.serializers.fila_encomenda_serializer import FilaEncomendaSerializer
+from codex.serializers.pessoa_serializer import PessoaSerializer
 
-class EncomendaSerializer(serializers.ModelSerializer):    
+class EncomendaSerializer(serializers.ModelSerializer): 
+    pessoa = PessoaSerializer(many=False, read_only=True)
+    
     class Meta:
         model = Encomenda
         fields = '__all__'
