@@ -1,4 +1,5 @@
 from django.urls import path
+from codex.views.localizacao_view import LocalizacaoView
 from codex.views.autenticacao_view import AutenticacaoView
 from codex.views.encomenda_view import EncomendaView
 from codex.views.armario_view import ArmarioView
@@ -42,5 +43,7 @@ urlpatterns = [
     path('compartimento/detalhe/<str:pk>', CompartimentoView.detalhe_compartimento, name='detalhe-compartimento'),
     path('compartimento/salvar', CompartimentoView.salvar_compartimento, name='salvar-compartimento'),
     path('compartimento/atualizar/<str:pk>', CompartimentoView.atualizar_compartimento, name='atualizar-compartimento'),
-    path('compartimento/deletar/<str:pk>', CompartimentoView.deletar_compartimento, name='deletar-compartimento'),    
+    path('compartimento/deletar/<str:pk>', CompartimentoView.deletar_compartimento, name='deletar-compartimento'),
+    # localizacao
+    path('localizacao/lista', LocalizacaoView.buscar_localizacao, name='buscar-localizacao')
 ]

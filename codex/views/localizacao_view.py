@@ -10,13 +10,15 @@ from codex.serializers.localizacao_serializer import LocalizacaoSerializer
 class LocalizacaoView(APIView):
     """Instanciamento de Classe"""
 
-    @api_view(['GET'])
-    def buscar_localizacao(self, request, pk):
+    @api_view(['POST'])
+    def buscar_localizacao(request):
         """busca localização"""
         try:
-            query = Localizacao.objects.get(id=pk)
-            serializer = LocalizacaoSerializer(query, many=False)
-            return Response(serializer.data)
+            serializer_localizacao = LocalizacaoSerializer(data=request.data)
+            if serializer_localizacao.is_valid():
+                busca = serializer_localizacao.search(request.data)
+            # serializer = LocalizacaoSerializer(query, many=False)
+            return Response(busca)
         except Exception as e:
             raise e
     
