@@ -5,7 +5,7 @@ from codex.models.pessoa import Pessoa
 class Encomenda(models.Model):
     codigo_resgate = models.CharField(max_length=45, blank=True)
     descricao = models.CharField(max_length=100)
-    unidade = models.CharField(max_length=45)
+    unidade = models.CharField(max_length=45, blank=True)
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
 
     def __str__(self):
