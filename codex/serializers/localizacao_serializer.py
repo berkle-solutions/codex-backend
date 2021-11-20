@@ -1,8 +1,10 @@
 from rest_framework import serializers
 from codex.models.localizacao import Localizacao
-from django.http import HttpResponse, JsonResponse
+from codex.models.pessoa import Pessoa
+from codex.serializers.pessoa_serializer import PessoaSerializer
 
 class LocalizacaoSerializer(serializers.ModelSerializer):
+    pessoa = PessoaSerializer(many=False, read_only=True)
     class Meta:
         model = Localizacao
         fields = '__all__'
@@ -17,14 +19,8 @@ class LocalizacaoSerializer(serializers.ModelSerializer):
         except Exception as e:
             raise e
     
-    def search(self, validated_data):
+    def search_persons(self, validated_data):
         try:
-            # todo: https://www.django-rest-framework.org/api-guide/generic-views/#get_querysetself
-            localizacao_existe = Localizacao.objects.filter(bloco=validated_data.get('bloco'), andar=validated_data.get('andar')).exists()
-            if not localizacao_existe:
-                raise Exception('Localização não localizada')
-            
-            localizacao = Localizacao.objects.get(bloco=validated_data.get('bloco'), andar=validated_data.get('andar'))
-            return JsonResponse(localizacao, safe=False)
+            return Localizacao.objects.filter(bloco=validated_data['bloco'], andar=validated_data['andar'])
         except Exception as e:
             raise e

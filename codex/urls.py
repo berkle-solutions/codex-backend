@@ -45,5 +45,5 @@ urlpatterns = [
     path('compartimento/atualizar/<str:pk>', CompartimentoView.atualizar_compartimento, name='atualizar-compartimento'),
     path('compartimento/deletar/<str:pk>', CompartimentoView.deletar_compartimento, name='deletar-compartimento'),
     # localizacao
-    path('localizacao/lista', LocalizacaoView.buscar_localizacao, name='buscar-localizacao')
+    path('localizacao/lista', PessoaView.buscar_pessoas_por_andar_bloco, name='buscar-localizacao')
 ]
