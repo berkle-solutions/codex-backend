@@ -42,7 +42,6 @@ class EncomendaView(APIView):
     def atualizar_encomenda(request):
         """atualiza status da encomenda"""
         try:
-            # serializer = EncomendaSerializer(data=request.data)
             encomenda = Encomenda.objects.get(id=request.data["id"])
             encomenda.descricao = request.data["descricao"]
             encomenda.save()

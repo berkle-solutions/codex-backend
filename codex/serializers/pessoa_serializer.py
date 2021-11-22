@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from codex.models.pessoa import Pessoa
 from codex.models.perfil import Perfil
 from codex.serializers.perfil_serializer import PerfilSerializer
-from codex.helpers.makers import criarRandomPassword
+from codex.helpers.makers import criar_random_password
 from codex.helpers.email import enviarEmailDeCadastro
 from codex.exceptions.pessoa import pessoaExceptions
 
@@ -20,7 +20,7 @@ class PessoaSerializer(serializers.ModelSerializer):
                 exceptions = pessoaExceptions()
                 raise Exception(exceptions.EMAIL_ALREADY_IN_USE)
 
-            random_password = criarRandomPassword()
+            random_password = criar_random_password()
             perfil_instance = Perfil.objects.get(id=validated_data["perfil"])
             
             validated_data["perfil"] = perfil_instance

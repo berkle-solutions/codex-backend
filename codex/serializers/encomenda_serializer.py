@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from codex.models.encomenda import Encomenda
 from codex.models.pessoa import Pessoa
-from codex.helpers.makers import criarCodigoResgate
+from codex.helpers.makers import criar_codigo_resgate
 # serializer
 from codex.serializers.fila_encomenda_serializer import FilaEncomendaSerializer
 from codex.serializers.pessoa_serializer import PessoaSerializer
@@ -18,7 +18,7 @@ class EncomendaSerializer(serializers.ModelSerializer):
             pessoa = Pessoa.objects.get(id=validated_data["pessoa"])
             validated_data["pessoa"] = pessoa
             
-            codigo_resgate = criarCodigoResgate()
+            codigo_resgate = criar_codigo_resgate()
             validated_data["codigo_resgate"] = codigo_resgate
             
             encomenda = Encomenda.objects.create(**validated_data)
