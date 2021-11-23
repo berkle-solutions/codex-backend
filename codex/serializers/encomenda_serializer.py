@@ -1,9 +1,11 @@
 from rest_framework import serializers
 from codex.models.encomenda import Encomenda
+from codex.models.compartimento import Compartimento
 from codex.models.pessoa import Pessoa
 from codex.helpers.makers import criar_codigo_resgate
 # serializer
 from codex.serializers.fila_encomenda_serializer import FilaEncomendaSerializer
+from codex.serializers.encomenda_compartimento_serializer import EncomendaCompartimentoSerializer
 from codex.serializers.pessoa_serializer import PessoaSerializer
 
 class EncomendaSerializer(serializers.ModelSerializer): 
@@ -35,3 +37,15 @@ class EncomendaSerializer(serializers.ModelSerializer):
         except Exception as e:
             raise e
         
+    def register_encomenda_estoque(self, validated_data):
+        try:
+            encomenda = Encomenda.objects.get(id=validated_data['encomenda'])
+            compartimento = Compartimento.objects.get(id=validated_data['compartimento'])
+            
+            validated_data['encomenda'] = encomenda
+            validated_data['compartimento'] = compartimento
+            
+            encomenda_compartimento_serializer = EncomendaCompartimentoSerializer(data=validated_data)
+            encomenda_compartimento_serializer.save()
+        except Exception as e:
+            raise e

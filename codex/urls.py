@@ -27,7 +27,7 @@ urlpatterns = [
     path('encomenda/lista', EncomendaView.retorna_encomenda, name="retorna-encomendas"),
     path('encomenda/detalhe/<str:pk>', EncomendaView.detalhe_encomenda, name="detalhe-encomenda"),
     path('encomenda/atualizar', EncomendaView.atualizar_encomenda, name="atualizar-encomenda"),
-    # path('encomenda/atualizar/status', EncomendaView.atualizar_encomenda_status, name="atualizar-encomenda=status"),
+    path('encomenda/estoque', EncomendaView.registrar_encomenda_estoque, name="atualiza-encomenda-estoque"),
     path('encomenda/deletar/<str:pk>', EncomendaView.deletar_encomenda, name="deletar-encomenda"),
     #autenticacao
     path('autenticacao/token', AutenticacaoView.autenticar_usuario, name="autenticacao"),
@@ -38,7 +38,7 @@ urlpatterns = [
     path('armario/detalhe/<str:pk>', ArmarioView.detalhe_armario, name='detalhe-armario'),
     path('armario/salvar', ArmarioView.salvar_armario, name='salvar-armario'),
     path('armario/atualizar/<str:pk>', ArmarioView.atualizar_armario, name='atualizar-armario'),
-    path('armario/deletar/<str:pk>', ArmarioView.deletar_armario, name='deletar-armario'),    
+    path('armario/deletar/<str:pk>', ArmarioView.deletar_armario, name='deletar-armario'), 
     # compartimento
     path('compartimento/lista-por-armario/<str:armario_id>', CompartimentoView.retorna_compartimentos_por_armario, name="retorna-compartimentos-por-armario"),
     path('compartimento/detalhe/<str:pk>', CompartimentoView.detalhe_compartimento, name='detalhe-compartimento'),

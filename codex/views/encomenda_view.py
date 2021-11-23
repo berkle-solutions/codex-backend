@@ -63,3 +63,12 @@ class EncomendaView(APIView):
                 raise "Por favor, informe o ID da encomenda"
         except Exception as e:
             raise e
+        
+    @api_view(['POST'])
+    def registrar_encomenda_estoque(request):
+        """Atualiza encomenda no status fila"""
+        try:
+            encomenda_serializer = EncomendaSerializer(data=request.data)
+            fila_status = encomenda_serializer.register_encomenda_estoque(request.data)
+        except Exception as e:
+            raise e
