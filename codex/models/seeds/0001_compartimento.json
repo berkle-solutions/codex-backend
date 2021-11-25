@@ -1,0 +1,83 @@
+[
+  {
+    "model": "codex.compartimento",
+    "pk": 1,
+    "fields": {
+      "descricao": "A1",
+      "ocupado": false,
+      "armario": 1
+    }
+  },
+  {
+    "model": "codex.compartimento",
+    "pk": 2,
+    "fields": {
+      "descricao": "A2",
+      "ocupado": false,
+      "armario": 1
+    }
+  },
+  {
+    "model": "codex.compartimento",
+    "pk": 3,
+    "fields": {
+      "descricao": "A3",
+      "ocupado": false,
+      "armario": 1
+    }
+  },
+  {
+    "model": "codex.compartimento",
+    "pk": 4,
+    "fields": {
+      "descricao": "A4",
+      "ocupado": false,
+      "armario": 1
+    }
+  },
+  {
+    "model": "codex.compartimento",
+    "pk": 5,
+    "fields": {
+      "descricao": "A5",
+      "ocupado": false,
+      "armario": 1
+    }
+  },
+  {
+    "model": "codex.compartimento",
+    "pk": 6,
+    "fields": {
+      "descricao": "A6",
+      "ocupado": false,
+      "armario": 1
+    }
+  },
+  {
+    "model": "codex.compartimento",
+    "pk": 7,
+    "fields": {
+      "descricao": "A7",
+      "ocupado": false,
+      "armario": 1
+    }
+  },
+  {
+    "model": "codex.compartimento",
+    "pk": 8,
+    "fields": {
+      "descricao": "A8",
+      "ocupado": false,
+      "armario": 1
+    }
+  },
+  {
+    "model": "codex.compartimento",
+    "pk": 9,
+    "fields": {
+      "descricao": "A9",
+      "ocupado": false,
+      "armario": 1
+    }
+  }
+]

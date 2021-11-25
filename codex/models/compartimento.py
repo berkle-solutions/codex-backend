@@ -2,7 +2,7 @@ from django.db import models
 from codex.models.armario import Armario
 
 
-class Compartilhamento(models.Model):
+class Compartimento(models.Model):
     descricao = models.CharField(max_length=45)
     ocupado = models.BooleanField(default=False)
     armario = models.ForeignKey(Armario, related_name='compartimentos', on_delete=models.CASCADE)

@@ -1,22 +1,39 @@
 from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.exceptions import APIException
 from codex.serializers.pessoa_serializer import PessoaSerializer
+from codex.serializers.localizacao_serializer import LocalizacaoSerializer
 from codex.models.pessoa import Pessoa
+from codex.exceptions.pessoa import pessoa_exception
 
 class PessoaView(APIView):
     
     @api_view(['POST'])
     def salvar_pessoa(request):
         try:
-            serializer = PessoaSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.create(request.data)
-                return Response(serializer.data)
-            else:
-                raise "Dados invalidos"
+            pessoa_serializer = PessoaSerializer(data=request.data)
+            if pessoa_serializer.is_valid():
+                pessoa_serializer.create(request.data)
+
+                if request.data.get('localizacao'):
+                    localizacao = {}
+                    pessoa = Pessoa.objects.get(email=pessoa_serializer.data.get('email'))
+                    localizacao['bloco'] = request.data['localizacao']['bloco']
+                    localizacao['andar'] = request.data['localizacao']['andar']
+                    localizacao['unidade'] = request.data['localizacao']['unidade']
+                    localizacao['pessoa'] = pessoa.id
+
+                    localizacao_serializar = LocalizacaoSerializer(data=localizacao)
+                    if localizacao_serializar.is_valid():
+                        localizacao_serializar.create(localizacao)
+                
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            exceptions = pessoa_exception()
+            raise Exception(exceptions.INVALID_FIELDS)
         except Exception as e:
-            raise e
+            raise APIException(e)
     
     @api_view(['PUT'])
     def atualizar_pessoa(request):
@@ -25,7 +42,7 @@ class PessoaView(APIView):
             serializer.update(request.data)
             return Response(status=200)
         except Exception as e:
-            raise e
+            raise APIException(e)
     
     @api_view(['GET'])
     def detalhe_pessoa(request, pk):
@@ -34,7 +51,7 @@ class PessoaView(APIView):
             serializer = PessoaSerializer(pessoa, many=False)
             return Response(serializer.data)
         except Exception as e:
-            raise e
+            raise APIException(e)
     
     @api_view(['GET'])
     def retorna_pessoas(request):
@@ -43,7 +60,7 @@ class PessoaView(APIView):
             serializer = PessoaSerializer(pessoas, many=True)
             return Response(serializer.data)
         except Exception as e:
-            raise e
+            raise APIException(e)
     
     @api_view(['DELETE'])
     def deletar_pessoa(request, pk):
@@ -55,5 +72,13 @@ class PessoaView(APIView):
             else:
                raise "Por favor, informe o ID da pessoa" 
         except Exception as e:
-            raise e
-    
+            raise APIException(e)
+        
+    @api_view(['POST'])
+    def buscar_pessoas_por_andar_bloco(request):
+        try:
+            localizacao_serializer = LocalizacaoSerializer()
+            pessoas_encontradas_serializer = LocalizacaoSerializer(localizacao_serializer.search_persons(request.data), many=True)
+            return Response(pessoas_encontradas_serializer.data)
+        except Exception as e:
+            raise APIException(e)   
