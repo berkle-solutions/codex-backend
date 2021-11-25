@@ -6,7 +6,7 @@ from rest_framework.exceptions import APIException
 from codex.serializers.pessoa_serializer import PessoaSerializer
 from codex.serializers.localizacao_serializer import LocalizacaoSerializer
 from codex.models.pessoa import Pessoa
-from codex.exceptions.pessoa import pessoaExceptions
+from codex.exceptions.pessoa import pessoa_exception
 
 class PessoaView(APIView):
     
@@ -30,7 +30,7 @@ class PessoaView(APIView):
                         localizacao_serializar.create(localizacao)
                 
                 return Response(status=status.HTTP_204_NO_CONTENT)
-            exceptions = pessoaExceptions()
+            exceptions = pessoa_exception()
             raise Exception(exceptions.INVALID_FIELDS)
         except Exception as e:
             raise APIException(e)

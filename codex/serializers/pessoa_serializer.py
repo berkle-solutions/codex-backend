@@ -6,7 +6,7 @@ from codex.models.perfil import Perfil
 from codex.serializers.perfil_serializer import PerfilSerializer
 from codex.helpers.makers import criar_random_password
 from codex.helpers.email import enviar_email_cadastro
-from codex.exceptions.pessoa import pessoaExceptions
+from codex.exceptions.pessoa import pessoa_exception
 
 class PessoaSerializer(serializers.ModelSerializer):
     perfil = PerfilSerializer(many=False, read_only=True)
@@ -17,7 +17,7 @@ class PessoaSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         try:
             if Pessoa.objects.filter(email=validated_data["email"]).exists():
-                exceptions = pessoaExceptions()
+                exceptions = pessoa_exception()
                 raise Exception(exceptions.EMAIL_ALREADY_IN_USE)
 
             random_password = criar_random_password()
