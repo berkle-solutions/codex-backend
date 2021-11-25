@@ -15,7 +15,7 @@ class EncomendaView(APIView):
         try:
             serializer_encomenda = EncomendaSerializer(data=request.data)
             if serializer_encomenda.is_valid():
-                serializer_encomenda.create(request.data)
+                serializer_encomenda.create_encomenda_estoque(request.data)
                 return Response(serializer_encomenda.data)
         except Exception as e:
             raise e
@@ -76,5 +76,15 @@ class EncomendaView(APIView):
                 encomenda_serializer = EncomendaSerializer(data=request.data)
                 encomenda_serializer.register_encomenda_estoque(request.data)
                 return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            raise e
+        
+    @api_view(['POST'])
+    def resgatar_encomenda(request):
+        """"""
+        try:
+            encomenda_serializer = EncomendaSerializer(data=request.data)
+            encomenda_serializer.rescue_encomenda_estoque(request.data)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             raise e
