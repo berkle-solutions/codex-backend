@@ -5,7 +5,7 @@ from codex.models.pessoa import Pessoa
 from codex.models.perfil import Perfil
 from codex.serializers.perfil_serializer import PerfilSerializer
 from codex.helpers.makers import criar_random_password
-from codex.helpers.email import enviarEmailDeCadastro
+from codex.helpers.email import enviar_email_cadastro
 from codex.exceptions.pessoa import pessoaExceptions
 
 class PessoaSerializer(serializers.ModelSerializer):
@@ -28,7 +28,7 @@ class PessoaSerializer(serializers.ModelSerializer):
            
             pessoa = Pessoa.objects.create(**validated_data)
 
-            enviarEmailDeCadastro(pessoa.email, random_password)
+            enviar_email_cadastro(pessoa.email, random_password)
              
             return pessoa
         except Exception as e:

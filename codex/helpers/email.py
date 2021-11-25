@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 # from django.http import HttpResponse
 
-def enviarEmailDeCadastro(email, senha):
+def enviar_email_cadastro(email, senha):
     try: 
         send_mail(
             'Seu acesso ao Codex - gestão de encomendas',
