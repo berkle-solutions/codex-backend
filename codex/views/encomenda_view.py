@@ -3,6 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from codex.models.encomenda import Encomenda
 from codex.serializers.encomenda_serializer import EncomendaSerializer
+from codex.serializers.encomenda_compartimento_serializer import EncomendaCompartimentoSerializer
+from rest_framework import status
 
 class EncomendaView(APIView):
     """instanciamento de classe"""
@@ -68,7 +70,11 @@ class EncomendaView(APIView):
     def registrar_encomenda_estoque(request):
         """Atualiza encomenda no status fila"""
         try:
-            encomenda_serializer = EncomendaSerializer(data=request.data)
-            fila_status = encomenda_serializer.register_encomenda_estoque(request.data)
+            encomenda_compartimento_serializer = EncomendaCompartimentoSerializer(data=request.data)
+            if encomenda_compartimento_serializer.is_valid():
+                encomenda_compartimento_serializer.save()
+                encomenda_serializer = EncomendaSerializer(data=request.data)
+                encomenda_serializer.register_encomenda_estoque(request.data)
+                return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             raise e

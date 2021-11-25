@@ -13,9 +13,8 @@ class LocalizacaoSerializer(serializers.ModelSerializer):
         try:
             pessoa = Pessoa.objects.get(id=validated_data["pessoa"])
             validated_data["pessoa"] = pessoa
-            Localizacao.objects.create(**validated_data)
             
-            return True
+            return Localizacao.objects.create(**validated_data)
         except Exception as e:
             raise e
     

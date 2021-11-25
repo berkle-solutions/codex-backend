@@ -30,7 +30,7 @@ class EncomendaSerializer(serializers.ModelSerializer):
             status_fila['pessoa'] = pessoa.id
             status_fila['status_fila'] = 1 # triagem
             
-            serializer_fila_encomenda = FilaEncomendaSerializer()
+            serializer_fila_encomenda = FilaEncomendaSerializer(data=status_fila)
             serializer_fila_encomenda.registra_fila_status(status_fila)
             
             return encomenda
@@ -39,13 +39,9 @@ class EncomendaSerializer(serializers.ModelSerializer):
         
     def register_encomenda_estoque(self, validated_data):
         try:
-            encomenda = Encomenda.objects.get(id=validated_data['encomenda'])
-            compartimento = Compartimento.objects.get(id=validated_data['compartimento'])
+            validated_data['status_fila'] = 2
             
-            validated_data['encomenda'] = encomenda
-            validated_data['compartimento'] = compartimento
-            
-            encomenda_compartimento_serializer = EncomendaCompartimentoSerializer(data=validated_data)
-            encomenda_compartimento_serializer.save()
+            serializer_fila_encomenda = FilaEncomendaSerializer()
+            return serializer_fila_encomenda.atualiza_fila_status(validated_data)
         except Exception as e:
             raise e

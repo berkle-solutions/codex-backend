@@ -11,7 +11,6 @@ class FilaEncomendaSerializer(serializers.ModelSerializer):
 
     def registra_fila_status(self, validated_data):
         try:
-            
             encomenda = Encomenda.objects.get(id=validated_data["encomenda"])
             pessoa = Pessoa.objects.get(id=validated_data["pessoa"])
             status = StatusFila.objects.get(id=validated_data["status_fila"])
@@ -24,3 +23,15 @@ class FilaEncomendaSerializer(serializers.ModelSerializer):
             fila_encomenda.save()
         except Exception as e:
             raise e
+
+    def atualiza_fila_status(self, validated_data):
+        try:
+            encomenda = Encomenda.objects.get(id=validated_data["encomenda"])
+            fila_encomenda = FilaEncomenda.objects.get(encomenda_id=encomenda.id, pessoa_id=encomenda.pessoa.id)
+            status = StatusFila.objects.get(id=validated_data["status_fila"])
+            
+            fila_encomenda.status_fila = status
+            fila_encomenda.save()
+        except Exception as e:
+            raise e
+        

@@ -1,0 +1,30 @@
+[
+  {
+    "model": "codex.statusfila",
+    "pk": 1,
+    "fields": {
+      "descricao": "Triagem"
+    }
+  },
+  {
+    "model": "codex.statusfila",
+    "pk": 2,
+    "fields": {
+      "descricao": "Em Estoque"
+    }
+  },
+  {
+    "model": "codex.statusfila",
+    "pk": 3,
+    "fields": {
+      "descricao": "Retirado"
+    }
+  },
+  {
+    "model": "codex.statusfila",
+    "pk": 4,
+    "fields": {
+      "descricao": "Em Atraso"
+    }
+  }
+]
