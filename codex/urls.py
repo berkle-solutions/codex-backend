@@ -6,6 +6,7 @@ from codex.views.armario_view import ArmarioView
 from codex.views.pessoa_view import PessoaView
 from codex.views.perfil_view import PerfilView
 from codex.views.compartimento_view import CompartimentoView
+from codex.views.notificacao_view import NotificacaoView
 
 
 urlpatterns = [
@@ -47,5 +48,7 @@ urlpatterns = [
     path('compartimento/atualizar/<str:pk>', CompartimentoView.atualizar_compartimento, name='atualizar-compartimento'),
     path('compartimento/deletar/<str:pk>', CompartimentoView.deletar_compartimento, name='deletar-compartimento'),
     # localizacao
-    path('localizacao/lista', PessoaView.buscar_pessoas_por_andar_bloco, name='buscar-localizacao')
+    path('localizacao/lista', PessoaView.buscar_pessoas_por_andar_bloco, name='buscar-localizacao'),
+    #notificacao
+    path('notificacao/enviar', NotificacaoView.enviar_notificacao, name="enviar-notificacao")
 ]
