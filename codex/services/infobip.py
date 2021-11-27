@@ -16,7 +16,6 @@ APPLICATION_2FA_NAME = 'codex2fa'
 APPLICATION_2FA_MESSAGE_ID = '3C5BE1429D804E3EBE23BD17144340E5'
 
 def create_new_person(user_data):
-    print(user_data)
     try:
         conn = http.client.HTTPSConnection(BASE_URL)
         
