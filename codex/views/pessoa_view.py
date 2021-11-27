@@ -7,6 +7,8 @@ from codex.serializers.pessoa_serializer import PessoaSerializer
 from codex.serializers.localizacao_serializer import LocalizacaoSerializer
 from codex.models.pessoa import Pessoa
 from codex.exceptions.pessoa import pessoa_exception
+# services
+from codex.services.infobip import (send_user_pin, verify_user_pin)
 
 class PessoaView(APIView):
     
@@ -81,4 +83,20 @@ class PessoaView(APIView):
             pessoas_encontradas_serializer = LocalizacaoSerializer(localizacao_serializer.search_persons(request.data), many=True)
             return Response(pessoas_encontradas_serializer.data)
         except Exception as e:
-            raise APIException(e)   
+            raise APIException(e)
+        
+    @api_view(['POST'])
+    def enviar_pin_2fa(request):
+        try:
+            send_user_pin(request.data['celular'])
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            raise APIException(e)
+        
+    @api_view(['POST'])
+    def verificar_pin_2fa(request):
+        try:
+            verify_user_pin(request.data['pinCode'])
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            raise APIException(e)
