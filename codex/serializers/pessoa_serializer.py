@@ -37,11 +37,12 @@ class PessoaSerializer(serializers.ModelSerializer):
                 "celular": validated_data["celular"]
             })
             
-            send_user_pin(validated_data["celular"])
+            send_pin = send_user_pin(validated_data["celular"])
+            pin_code_id = send_pin['pinId']
 
             enviar_email_cadastro(pessoa.email, random_password)
              
-            return pessoa
+            return pin_code_id
         except Exception as e:
             raise e
             

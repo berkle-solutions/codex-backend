@@ -40,7 +40,7 @@ def create_new_person(user_data):
         
         conn.request("POST", "/people/2/persons", json.dumps(payload), headers)
         res = conn.getresponse()
-        data = res.read()
+        data = res.read().decode('utf-8')
         return data
     
     except Exception as e:
@@ -65,21 +65,18 @@ def send_user_pin(user_phone):
         
         conn.request("POST", "/2fa/2/pin", json.dumps(payload), headers)
         res = conn.getresponse()
-        data = res.read()
-        return data
+        data = res.read().decode('utf-8')
+
+        return json.loads(data)
     except Exception as e:
         raise e
     
-def verify_user_pin(user_pin_code):
+def verify_user_pin(user_pin_data):
     try:
         conn = http.client.HTTPSConnection(BASE_URL)
         
-        # TODO: criar payload do verify
         payload = {
-            "applicationId": APPLICATION_ID_2FA,
-            "messageId": APPLICATION_2FA_MESSAGE_ID,
-            "from": "Infobip 2FA",
-            "to": user_pin_code,
+            "pin": user_pin_data['pinCode'],
         }
         
         headers = {
@@ -88,9 +85,9 @@ def verify_user_pin(user_pin_code):
             'Accept': 'application/json'
         }
         
-        conn.request("POST", "/2fa/2/pin/" + user_pin_code + "/verify", json.dumps(payload), headers)
+        conn.request("POST", "/2fa/2/pin/" + user_pin_data['pinId'] + "/verify", json.dumps(payload), headers)
         res = conn.getresponse()
-        data = res.read()
+        data = res.read().decode('utf-8')
         return data
     except Exception as e:
         raise e

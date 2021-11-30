@@ -17,7 +17,7 @@ class PessoaView(APIView):
         try:
             pessoa_serializer = PessoaSerializer(data=request.data)
             if pessoa_serializer.is_valid():
-                pessoa_serializer.create(request.data)
+                pessoa_pin_id = pessoa_serializer.create(request.data)
 
                 if request.data.get('localizacao'):
                     localizacao = {}
@@ -31,7 +31,12 @@ class PessoaView(APIView):
                     if localizacao_serializar.is_valid():
                         localizacao_serializar.create(localizacao)
                 
-                return Response(status=status.HTTP_204_NO_CONTENT)
+                
+                pin_id = {
+                    'pinId': pessoa_pin_id
+                }
+                
+                return Response(pin_id)
             exceptions = pessoa_exception()
             raise Exception(exceptions.INVALID_FIELDS)
         except Exception as e:
@@ -96,7 +101,7 @@ class PessoaView(APIView):
     @api_view(['POST'])
     def verificar_pin_2fa(request):
         try:
-            verify_user_pin(request.data['pinCode'])
+            verify_user_pin(request.data)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             raise APIException(e)
