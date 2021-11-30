@@ -66,7 +66,7 @@ def send_user_pin(user_phone):
         conn.request("POST", "/2fa/2/pin", json.dumps(payload), headers)
         res = conn.getresponse()
         data = res.read().decode('utf-8')
-
+        
         return json.loads(data)
     except Exception as e:
         raise e
