@@ -91,3 +91,22 @@ def verify_user_pin(user_pin_data):
         return data
     except Exception as e:
         raise e
+    
+def resend_verify_user_pin(pin_id):
+    try:
+        conn = http.client.HTTPSConnection(BASE_URL)
+        
+        headers = {
+            'Authorization': DEFAULT_HEADERS['Authorization'],
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+        
+        payload = "{\"placeholders\":{\"firstName\":\"Codex\"}}"
+        
+        conn.request("POST", "/2fa/2/pin/" + pin_id + "/resend", payload, headers)
+        res = conn.getresponse()
+        data = res.read().decode('utf-8')
+        return data
+    except Exception as e:
+        raise e

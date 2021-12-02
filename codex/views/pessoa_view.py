@@ -9,7 +9,7 @@ from codex.serializers.localizacao_serializer import LocalizacaoSerializer
 from codex.models.pessoa import Pessoa
 from codex.exceptions.pessoa import pessoa_exception
 # services
-from codex.services.infobip import (send_user_pin, verify_user_pin)
+from codex.services.infobip import (send_user_pin, verify_user_pin, resend_verify_user_pin)
 
 class PessoaView(APIView):
     
@@ -103,6 +103,14 @@ class PessoaView(APIView):
     def verificar_pin_2fa(request):
         try:
             verify_user_pin(request.data)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            raise APIException(e)
+        
+    @api_view(['POST'])
+    def reenviar_pin_2fa(request):
+        try:
+            resend_verify_user_pin(request.data)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             raise APIException(e)

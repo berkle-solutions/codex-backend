@@ -25,6 +25,7 @@ urlpatterns = [
     path('pessoa/lista', PessoaView.retorna_pessoas, name="retorna-pessoas"),
     path('pessoa/enviar/pin', PessoaView.enviar_pin_2fa, name="enviar-pin-2fa"),
     path('pessoa/verificar/pin', PessoaView.verificar_pin_2fa, name="verificar-pin-2fa"),
+    path('pessoa/verificar/pin/resend', PessoaView.reenviar_pin_2fa, name="reenvier-verificar-pin-2fa"),
     #encomenda
     path('encomenda/salvar', EncomendaView.salvar_encomenda, name="salvar-encomenda"),
     path('encomenda/lista', EncomendaView.retorna_encomenda, name="retorna-encomendas"),
