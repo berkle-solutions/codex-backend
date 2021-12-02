@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.exceptions import APIException
 from codex.serializers.pessoa_serializer import PessoaSerializer
 from codex.serializers.localizacao_serializer import LocalizacaoSerializer
@@ -36,7 +37,7 @@ class PessoaView(APIView):
                     'pinId': pessoa_pin_id
                 }
                 
-                return Response(pin_id)
+                return JsonResponse(pin_id)
             exceptions = pessoa_exception()
             raise Exception(exceptions.INVALID_FIELDS)
         except Exception as e:
