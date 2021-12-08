@@ -39,16 +39,8 @@ class EncomendaSerializer(serializers.ModelSerializer):
     def rescue_encomenda_estoque(self, validated_data):
         try:
             encomenda = Encomenda.objects.get(pessoa_id=validated_data['pessoa'], codigo_resgate=validated_data['codigo_resgate'])
-            
             encomenda_compartimento = EncomendaCompartimento.objects.get(encomenda=encomenda.id)
             encomenda_compartimento.delete()
-            
-            status_fila_enum = fila_status_enum()
-            validated_data['status_fila'] = status_fila_enum.RETIRADO
-            validated_data['encomenda'] = encomenda.id
-            
-            # serializer_fila_encomenda = FilaEncomendaSerializer()
-            # return serializer_fila_encomenda.atualiza_fila_status(validated_data)
-        
+            return encomenda 
         except Encomenda.DoesNotExist as e:
             raise e

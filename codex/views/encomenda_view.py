@@ -96,7 +96,15 @@ class EncomendaView(APIView):
         """"""
         try:
             encomenda_serializer = EncomendaSerializer(data=request.data)
-            encomenda_serializer.rescue_encomenda_estoque(request.data)
+            encomenda = encomenda_serializer.rescue_encomenda_estoque(request.data)
+            
+            status_fila_enum = fila_status_enum()
+            request.data['status_fila'] = status_fila_enum.RETIRADO
+            request.data['encomenda'] = encomenda.id
+            
+            serializer_fila_encomenda = FilaEncomendaSerializer()
+            serializer_fila_encomenda.atualiza_fila_status(request.data)
+        
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             raise e
