@@ -10,7 +10,7 @@ from codex.helpers.makers import criar_codigo_resgate
 from codex.enums.fila_status import fila_status_enum
 
 class EncomendaSerializer(serializers.ModelSerializer): 
-    pessoa = PessoaSerializer(many=False, read_only=True)
+    # pessoa = PessoaSerializer(many=False, read_only=True)
     
     class Meta:
         model = Encomenda

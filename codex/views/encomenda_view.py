@@ -40,8 +40,8 @@ class EncomendaView(APIView):
     def detalhe_encomenda(request, pk):
         """mostra detalhes de uma unica encomenda"""
         try:
-            query = Encomenda.objects.get(id=pk)
-            serializer = EncomendaSerializer(query, many=False)
+            query = FilaEncomenda.objects.get(id=pk)
+            serializer = FilaEncomendaSerializer(query, many=False)
             return Response(serializer.data)
         except Exception as e:
             raise e
