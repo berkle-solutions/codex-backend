@@ -2,8 +2,11 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from codex.models.encomenda import Encomenda
+from codex.models.fila_encomenda import FilaEncomenda
+from codex.serializers.fila_encomenda_serializer import FilaEncomendaSerializer
 from codex.serializers.encomenda_serializer import EncomendaSerializer
 from codex.serializers.encomenda_compartimento_serializer import EncomendaCompartimentoSerializer
+from codex.enums.fila_status import fila_status_enum
 from rest_framework import status
 
 class EncomendaView(APIView):
@@ -15,8 +18,11 @@ class EncomendaView(APIView):
         try:
             serializer_encomenda = EncomendaSerializer(data=request.data)
             if serializer_encomenda.is_valid():
-                serializer_encomenda.create_encomenda_estoque(request.data)
-                return Response(serializer_encomenda.data)
+                encomenda = serializer_encomenda.create_encomenda_estoque(request.data)
+                fila_encomenda_serializer = FilaEncomendaSerializer(data=encomenda)
+                fila_encomenda_serializer.registra_fila_status(encomenda)
+
+                return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             raise e
 
@@ -24,8 +30,8 @@ class EncomendaView(APIView):
     def retorna_encomenda(request):
         """mostra todas as encomenda"""
         try:
-            query = Encomenda.objects.all()
-            serializer = EncomendaSerializer(query, many=True)
+            query = FilaEncomenda.objects.all()
+            serializer = FilaEncomendaSerializer(query, many=True)
             return Response(serializer.data)
         except Exception as e:
             raise e
@@ -73,8 +79,14 @@ class EncomendaView(APIView):
             encomenda_compartimento_serializer = EncomendaCompartimentoSerializer(data=request.data)
             if encomenda_compartimento_serializer.is_valid():
                 encomenda_compartimento_serializer.save()
-                encomenda_serializer = EncomendaSerializer(data=request.data)
-                encomenda_serializer.register_encomenda_estoque(request.data)
+                
+                status_fila_enum = fila_status_enum()
+
+                request.data['status_fila'] = status_fila_enum.EM_ESTOQUE
+                
+                serializer_fila_encomenda = FilaEncomendaSerializer()
+                serializer_fila_encomenda.atualiza_fila_status(request.data)
+                
                 return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             raise e
