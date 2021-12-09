@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from codex.models.encomenda import Encomenda
 from codex.models.fila_encomenda import FilaEncomenda
+from codex.models.encomenda_compartimento import EncomendaCompartimento
 from codex.serializers.fila_encomenda_serializer import FilaEncomendaSerializer
 from codex.serializers.encomenda_serializer import EncomendaSerializer
 from codex.serializers.encomenda_compartimento_serializer import EncomendaCompartimentoSerializer
@@ -40,9 +41,23 @@ class EncomendaView(APIView):
     def detalhe_encomenda(request, pk):
         """mostra detalhes de uma unica encomenda"""
         try:
-            query = FilaEncomenda.objects.get(id=pk)
-            serializer = FilaEncomendaSerializer(query, many=False)
-            return Response(serializer.data)
+            fila_encomenda = FilaEncomenda.objects.get(id=pk)
+            fila_encomenda_serializer = FilaEncomendaSerializer(fila_encomenda, many=False)
+            encomenda_id = fila_encomenda_serializer.data['encomenda']['id']
+            
+            encomenda = fila_encomenda_serializer.data
+            
+            if EncomendaCompartimento.objects.filter(encomenda = encomenda_id):
+                encomenda_compartimento = EncomendaCompartimento.objects.get(encomenda=encomenda_id)  
+                encomenda_compartimento_serializer = EncomendaCompartimentoSerializer(encomenda_compartimento, many=False)
+                fila_encomenda_dict = dict(fila_encomenda_serializer.data)
+                encomenda_compartimento = dict(encomenda_compartimento_serializer.data["compartimento"])
+                encomenda = {**fila_encomenda_dict, 'compartimento': { **encomenda_compartimento }}
+                
+            return Response(encomenda)
+        
+        except FilaEncomenda.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             raise e
 

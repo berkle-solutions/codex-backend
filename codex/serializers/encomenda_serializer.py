@@ -2,16 +2,12 @@ from rest_framework import serializers
 from codex.models.encomenda import Encomenda
 from codex.models.encomenda_compartimento import EncomendaCompartimento
 from codex.models.pessoa import Pessoa
-# serializer
-from codex.serializers.pessoa_serializer import PessoaSerializer
 # helpers
 from codex.helpers.makers import criar_codigo_resgate
 # enum
 from codex.enums.fila_status import fila_status_enum
 
-class EncomendaSerializer(serializers.ModelSerializer): 
-    # pessoa = PessoaSerializer(many=False, read_only=True)
-    
+class EncomendaSerializer(serializers.ModelSerializer):     
     class Meta:
         model = Encomenda
         fields = '__all__'
