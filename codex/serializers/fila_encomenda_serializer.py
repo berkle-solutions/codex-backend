@@ -1,14 +1,18 @@
 from rest_framework import serializers
+# models
 from codex.models.encomenda import Encomenda
-from codex.serializers.encomenda_serializer import EncomendaSerializer
-from codex.serializers.pessoa_serializer import PessoaSerializer
 from codex.models.pessoa import Pessoa
 from codex.models.fila_encomenda import FilaEncomenda
 from codex.models.statusfila import StatusFila
+# serializers
+from codex.serializers.encomenda_serializer import EncomendaSerializer
+from codex.serializers.pessoa_serializer import PessoaSerializer
+from codex.serializers.statusfila_serializer import StatusFilaSerializer
 
 class FilaEncomendaSerializer(serializers.ModelSerializer):
     encomenda = EncomendaSerializer(many=False, read_only=True)
     pessoa = PessoaSerializer(many=False, read_only=True)
+    status_fila = StatusFilaSerializer(many=False, read_only=True)
     class Meta:
         model = FilaEncomenda
         fields = '__all__'
