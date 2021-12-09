@@ -53,5 +53,6 @@ urlpatterns = [
     # localizacao
     path('localizacao/lista', PessoaView.buscar_pessoas_por_andar_bloco, name='buscar-localizacao'),
     #notificacao
-    path('notificacao/enviar', NotificacaoView.enviar_notificacao, name="enviar-notificacao")
+    path('notificacao/enviar', NotificacaoView.enviar_notificacao, name="enviar-notificacao"),
+    #path('sendemail/', send_email_api),
 ]
