@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework.exceptions import APIException
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from codex.models.encomenda import Encomenda
@@ -93,8 +94,7 @@ class EncomendaView(APIView):
         try:
             encomenda_compartimento_serializer = EncomendaCompartimentoSerializer(data=request.data)
             if encomenda_compartimento_serializer.is_valid():
-                encomenda_compartimento_serializer.save()
-                
+                encomenda_compartimento_serializer.create(request.data)
                 status_fila_enum = fila_status_enum()
 
                 request.data['status_fila'] = status_fila_enum.EM_ESTOQUE
@@ -104,7 +104,7 @@ class EncomendaView(APIView):
                 
                 return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
-            raise e
+            raise APIException(e)
         
     @api_view(['POST'])
     def resgatar_encomenda(request):

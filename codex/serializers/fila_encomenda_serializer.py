@@ -34,13 +34,19 @@ class FilaEncomendaSerializer(serializers.ModelSerializer):
 
     def atualiza_fila_status(self, validated_data):
         try:
-            print(validated_data)
             encomenda = Encomenda.objects.get(id=validated_data["encomenda"])
             fila_encomenda = FilaEncomenda.objects.get(encomenda_id=encomenda.id, pessoa_id=encomenda.pessoa.id)
             status = StatusFila.objects.get(id=validated_data["status_fila"])
-            
             fila_encomenda.status_fila = status
-            fila_encomenda.save()
+            
+            return fila_encomenda.save()
+            
+        except Encomenda.DoesNotExist as e:
+            raise e
+        except FilaEncomenda.DoesNotExist as e:
+            raise e
+        except StatusFila.DoesNotExist as e:
+            raise e
         except Exception as e:
             raise e
         
