@@ -37,6 +37,8 @@ class PessoaView(APIView):
                     'pinId': pessoa_pin_id
                 }
                 
+                print(pin_id)
+                
                 return JsonResponse(pin_id)
             exceptions = pessoa_exception()
             raise Exception(exceptions.INVALID_FIELDS)
