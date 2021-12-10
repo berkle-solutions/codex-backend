@@ -27,7 +27,7 @@ def create_new_person(user_data):
                     "address": user_data['email'],
                 }],
                 "phone": [{
-                    "number": user_data['celular'],
+                    "number": '55' + user_data['celular'],
                 }]
             }
         }
@@ -48,13 +48,14 @@ def create_new_person(user_data):
     
 def send_user_pin(user_phone):
     try:
+        print(user_phone)
         conn = http.client.HTTPSConnection(BASE_URL)
         
         payload = {
             "applicationId": APPLICATION_ID_2FA,
             "messageId": APPLICATION_2FA_MESSAGE_ID,
             "from": "Infobip 2FA",
-            "to": user_phone,
+            "to": '55' + user_phone,
         }
         
         headers = {
@@ -94,6 +95,7 @@ def verify_user_pin(user_pin_data):
     
 def resend_verify_user_pin(pin_id):
     try:
+        print(pin_id['pin_id'])
         conn = http.client.HTTPSConnection(BASE_URL)
         
         headers = {
@@ -102,9 +104,7 @@ def resend_verify_user_pin(pin_id):
             'Accept': 'application/json'
         }
         
-        payload = "{\"placeholders\":{\"firstName\":\"Codex\"}}"
-        
-        conn.request("POST", "/2fa/2/pin/" + pin_id + "/resend", payload, headers)
+        conn.request("POST", "/2fa/2/pin/" + pin_id['pin_id'] + "/resend", {}, headers)
         res = conn.getresponse()
         data = res.read().decode('utf-8')
         return data
