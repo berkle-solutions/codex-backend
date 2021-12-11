@@ -27,7 +27,7 @@ def create_new_person(user_data):
                     "address": user_data['email'],
                 }],
                 "phone": [{
-                    "number": '55' + user_data['celular'],
+                    "number": str(user_data['celular']),
                 }]
             }
         }
@@ -55,7 +55,7 @@ def send_user_pin(user_phone):
             "applicationId": APPLICATION_ID_2FA,
             "messageId": APPLICATION_2FA_MESSAGE_ID,
             "from": "Infobip 2FA",
-            "to": '55' + user_phone,
+            "to": str(user_phone),
         }
         
         headers = {
@@ -95,7 +95,6 @@ def verify_user_pin(user_pin_data):
     
 def resend_verify_user_pin(pin_id):
     try:
-        print(pin_id['pin_id'])
         conn = http.client.HTTPSConnection(BASE_URL)
         
         headers = {
@@ -105,6 +104,35 @@ def resend_verify_user_pin(pin_id):
         }
         
         conn.request("POST", "/2fa/2/pin/" + pin_id['pin_id'] + "/resend", {}, headers)
+        res = conn.getresponse()
+        data = res.read().decode('utf-8')
+        return data
+    except Exception as e:
+        raise e
+    
+def send_message_whatsapp(user_phone):
+    try:
+        print(user_phone['phone'])
+        conn = http.client.HTTPSConnection(BASE_URL)
+        
+        headers = {
+            'Authorization': DEFAULT_HEADERS['Authorization'],
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+        
+        payload = {
+            "applicationId": APPLICATION_ID_2FA,
+            "content": {
+                "text": "Sua encomenda já esta em nosso estoque, por favor, faça a retirada.",
+                "callbackData": "Callback data",
+            },
+            "messageId": APPLICATION_2FA_MESSAGE_ID,
+            "from": "Infobip 2FA",
+            "to": '55' + str(user_phone['phone']),
+        }
+        
+        conn.request("POST", "/whatsapp/1/message/text", json.dumps(payload), headers)
         res = conn.getresponse()
         data = res.read().decode('utf-8')
         return data
