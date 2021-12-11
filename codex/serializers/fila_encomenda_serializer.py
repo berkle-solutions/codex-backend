@@ -28,7 +28,7 @@ class FilaEncomendaSerializer(serializers.ModelSerializer):
             validated_data["status_fila"] = status
             
             fila_encomenda = FilaEncomenda.objects.create(**validated_data)
-            fila_encomenda.save()
+            return fila_encomenda.save()
         except Exception as e:
             raise e
 

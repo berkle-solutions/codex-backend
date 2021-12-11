@@ -108,7 +108,7 @@ def resend_verify_user_pin(pin_id):
     except Exception as e:
         raise e
     
-def send_message_whatsapp(user_phone):
+def send_message_whatsapp(user_phone, message = "Sua encomenda já esta em nosso estoque, por favor, faça a retirada."):
     try:
         conn = http.client.HTTPSConnection(BASE_URL)
         
@@ -120,7 +120,7 @@ def send_message_whatsapp(user_phone):
         
         payload = {
             "content": {
-                "text": "Sua encomenda já esta em nosso estoque, por favor, faça a retirada.",
+                "text": message,
             },
             "messageId": APPLICATION_2FA_MESSAGE_ID,
             "from": "447860099299",
