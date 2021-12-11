@@ -27,7 +27,7 @@ def create_new_person(user_data):
                     "address": user_data['email'],
                 }],
                 "phone": [{
-                    "number": str(user_data['celular']),
+                    "number": '55' + user_data['celular'],
                 }]
             }
         }
@@ -42,20 +42,18 @@ def create_new_person(user_data):
         res = conn.getresponse()
         data = res.read().decode('utf-8')
         return data
-    
     except Exception as e:
         raise e
     
 def send_user_pin(user_phone):
     try:
-        print(user_phone)
         conn = http.client.HTTPSConnection(BASE_URL)
         
         payload = {
             "applicationId": APPLICATION_ID_2FA,
             "messageId": APPLICATION_2FA_MESSAGE_ID,
             "from": "Infobip 2FA",
-            "to": str(user_phone),
+            "to": '55' + user_phone,
         }
         
         headers = {
@@ -67,7 +65,6 @@ def send_user_pin(user_phone):
         conn.request("POST", "/2fa/2/pin", json.dumps(payload), headers)
         res = conn.getresponse()
         data = res.read().decode('utf-8')
-        
         return json.loads(data)
     except Exception as e:
         raise e
@@ -77,7 +74,7 @@ def verify_user_pin(user_pin_data):
         conn = http.client.HTTPSConnection(BASE_URL)
         
         payload = {
-            "pin": user_pin_data['pinCode'],
+            "pin": str(user_pin_data['pinCode']),
         }
         
         headers = {
@@ -89,6 +86,7 @@ def verify_user_pin(user_pin_data):
         conn.request("POST", "/2fa/2/pin/" + user_pin_data['pinId'] + "/verify", json.dumps(payload), headers)
         res = conn.getresponse()
         data = res.read().decode('utf-8')
+        
         return data
     except Exception as e:
         raise e
@@ -112,7 +110,6 @@ def resend_verify_user_pin(pin_id):
     
 def send_message_whatsapp(user_phone):
     try:
-        print(user_phone['phone'])
         conn = http.client.HTTPSConnection(BASE_URL)
         
         headers = {
@@ -122,14 +119,12 @@ def send_message_whatsapp(user_phone):
         }
         
         payload = {
-            "applicationId": APPLICATION_ID_2FA,
             "content": {
                 "text": "Sua encomenda já esta em nosso estoque, por favor, faça a retirada.",
-                "callbackData": "Callback data",
             },
             "messageId": APPLICATION_2FA_MESSAGE_ID,
-            "from": "Infobip 2FA",
-            "to": '55' + str(user_phone['phone']),
+            "from": "447860099299",
+            "to": '55' + user_phone['phone'],
         }
         
         conn.request("POST", "/whatsapp/1/message/text", json.dumps(payload), headers)
