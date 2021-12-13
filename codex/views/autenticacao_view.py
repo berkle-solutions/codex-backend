@@ -1,9 +1,11 @@
 from codex.models.pessoa import Pessoa
+from codex.serializers.pessoa_serializer import PessoaSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import RefreshToken
-#from codex.serializers.pessoa_serializer import PessoaSerializer
+
+import json
 
 class AutenticacaoView(APIView):
     
@@ -15,10 +17,15 @@ class AutenticacaoView(APIView):
                 return Exception('Usuário não localizado!')
         
             refresh = RefreshToken.for_user(usuario)
+            usuario_serializer = PessoaSerializer(usuario, many=False)
+
             
             return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
+                'user': usuario_serializer.data,
+                'authToken': {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                }
             })
         except Exception as e:
             raise e

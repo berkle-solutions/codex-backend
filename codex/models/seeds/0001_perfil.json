@@ -1,0 +1,30 @@
+[
+  {
+    "model": "codex.perfil",
+    "pk": 1,
+    "fields": {
+      "descricao": "admin"
+    }
+  },
+  {
+    "model": "codex.perfil",
+    "pk": 2,
+    "fields": {
+      "descricao": "porteiro"
+    }
+  },
+  {
+    "model": "codex.perfil",
+    "pk": 3,
+    "fields": {
+      "descricao": "estoquista"
+    }
+  },
+  {
+    "model": "codex.perfil",
+    "pk": 4,
+    "fields": {
+      "descricao": "morador"
+    }
+  }
+]

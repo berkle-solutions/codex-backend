@@ -6,6 +6,7 @@ from codex.views.armario_view import ArmarioView
 from codex.views.pessoa_view import PessoaView
 from codex.views.perfil_view import PerfilView
 from codex.views.compartimento_view import CompartimentoView
+from codex.views.notificacao_view import NotificacaoView
 
 
 urlpatterns = [
@@ -22,6 +23,9 @@ urlpatterns = [
     path('pessoa/deletar/<str:pk>', PessoaView.deletar_pessoa, name="deletar-pessoa"),
     path('pessoa/atualizar', PessoaView.atualizar_pessoa, name="atualizar-pessoa"),
     path('pessoa/lista', PessoaView.retorna_pessoas, name="retorna-pessoas"),
+    path('pessoa/enviar/pin', PessoaView.enviar_pin_2fa, name="enviar-pin-2fa"),
+    path('pessoa/verificar/pin', PessoaView.verificar_pin_2fa, name="verificar-pin-2fa"),
+    path('pessoa/verificar/pin/resend', PessoaView.reenviar_pin_2fa, name="reenvier-verificar-pin-2fa"),
     #encomenda
     path('encomenda/salvar', EncomendaView.salvar_encomenda, name="salvar-encomenda"),
     path('encomenda/lista', EncomendaView.retorna_encomenda, name="retorna-encomendas"),
@@ -47,5 +51,8 @@ urlpatterns = [
     path('compartimento/atualizar/<str:pk>', CompartimentoView.atualizar_compartimento, name='atualizar-compartimento'),
     path('compartimento/deletar/<str:pk>', CompartimentoView.deletar_compartimento, name='deletar-compartimento'),
     # localizacao
-    path('localizacao/lista', PessoaView.buscar_pessoas_por_andar_bloco, name='buscar-localizacao')
+    path('localizacao/lista', PessoaView.buscar_pessoas_por_andar_bloco, name='buscar-localizacao'),
+    #notificacao
+    path('notificacao/enviar', NotificacaoView.enviar_notificacao, name="enviar-notificacao"),
+    path('notificacao/enviar/whatsapp', NotificacaoView.enviar_notificacao_wpp, name="enviar-notificacao-whatsapp"),
 ]

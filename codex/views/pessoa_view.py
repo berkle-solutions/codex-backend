@@ -2,11 +2,14 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.exceptions import APIException
 from codex.serializers.pessoa_serializer import PessoaSerializer
 from codex.serializers.localizacao_serializer import LocalizacaoSerializer
 from codex.models.pessoa import Pessoa
 from codex.exceptions.pessoa import pessoa_exception
+# services
+from codex.services.infobip import (send_user_pin, verify_user_pin, resend_verify_user_pin)
 
 class PessoaView(APIView):
     
@@ -15,7 +18,7 @@ class PessoaView(APIView):
         try:
             pessoa_serializer = PessoaSerializer(data=request.data)
             if pessoa_serializer.is_valid():
-                pessoa_serializer.create(request.data)
+                pessoa_pin_id = pessoa_serializer.create(request.data)
 
                 if request.data.get('localizacao'):
                     localizacao = {}
@@ -29,7 +32,14 @@ class PessoaView(APIView):
                     if localizacao_serializar.is_valid():
                         localizacao_serializar.create(localizacao)
                 
-                return Response(status=status.HTTP_204_NO_CONTENT)
+                
+                pin_id = {
+                    'pinId': pessoa_pin_id
+                }
+                
+                print(pin_id)
+                
+                return JsonResponse(pin_id)
             exceptions = pessoa_exception()
             raise Exception(exceptions.INVALID_FIELDS)
         except Exception as e:
@@ -81,4 +91,28 @@ class PessoaView(APIView):
             pessoas_encontradas_serializer = LocalizacaoSerializer(localizacao_serializer.search_persons(request.data), many=True)
             return Response(pessoas_encontradas_serializer.data)
         except Exception as e:
-            raise APIException(e)   
+            raise APIException(e)
+        
+    @api_view(['POST'])
+    def enviar_pin_2fa(request):
+        try:
+            send_user_pin(request.data['celular'])
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            raise APIException(e)
+        
+    @api_view(['POST'])
+    def verificar_pin_2fa(request):
+        try:
+            verify_user_pin(request.data)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            raise APIException(e)
+        
+    @api_view(['POST'])
+    def reenviar_pin_2fa(request):
+        try:
+            resend_verify_user_pin(request.data)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            raise APIException(e)

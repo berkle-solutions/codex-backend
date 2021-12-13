@@ -77,7 +77,7 @@ MIDDLEWARE = [
 ]
 
 # TODO: add env to allowed origins
-CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'https://codex-backend-tcc.herokuapp.com']
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'https://codex-backend-tcc.herokuapp.com', 'https://codex-frontend-app.herokuapp.com']
 
 ROOT_URLCONF = 'api.urls'
 
