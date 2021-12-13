@@ -1,19 +1,24 @@
 import http.client
 import json
 
-BASE_URL = "yr8e3d.api.infobip.com"
-API_KEY = "App 3ab9363359b48d88f1b7b2b11cd92f76-137f1861-a3bd-483b-b7de-902f788c8f49"
+import environ
+env = environ.Env()
+environ.Env.read_env()
+
+
+BASE_URL = env('INFOBIP_BASE_URL')
+API_KEY = env('INFOBIP_API_KEY')
 
 DEFAULT_HEADERS = {
-    'Authorization': 'App 3ab9363359b48d88f1b7b2b11cd92f76-137f1861-a3bd-483b-b7de-902f788c8f49',
+    'Authorization': env('INFOBIP_API_KEY'),
     'Content-Type': 'application/json',
     'Accept': 'application/json'
 }
 
-APPLICATION_ID_2FA = 'AECBD257FCD6BDD5BFA8BE879B03E534'
-APPLICATION_2FA_NAME = 'codex2fa'
+APPLICATION_ID_2FA = env('APPLICATION_ID_2FA')
+APPLICATION_2FA_NAME = env('APPLICATION_2FA_NAME')
 
-APPLICATION_2FA_MESSAGE_ID = '3C5BE1429D804E3EBE23BD17144340E5'
+APPLICATION_2FA_MESSAGE_ID = env('APPLICATION_2FA_MESSAGE_ID')
 
 def create_new_person(user_data):
     try:
